@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Расчет температуры - Газы</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body>
+    <div class="gas_page" data-model-id="14:69">
+        <!-- Header -->
+        <header class="gas_header w-full h-[164px] translate-y-[-1rem] animate-fade-in opacity-0">
+            <div class="container mx-auto px-8 py-8 flex items-center gap-4">
+                <h1 class="text-4xl font-bold gas_text_primary tracking-[-0.70px] [font-family:'Inter',Helvetica]">
+                    Расчет температуры
+                </h1>
+                <img
+                     class="header-logo"
+                     alt="Market Logo"
+                     src="http://localhost:9000/cards/photos/default_market.webp"
+                 />
+            </div>
+        </header>
+
+        <!-- Search Section -->
+        <section class="w-full py-8 translate-y-[-1rem] animate-fade-in opacity-0 [--animation-delay:200ms]">
+            <div class="container mx-auto px-8">
+                <div class="flex justify-center">
+                    <div class="flex items-center gap-4 max-w-md w-full">
+                        <form method="get" class="flex-1 h-[60px] gas_search">
+                            <input
+                                type="text"
+                                name="gas_search"
+                                th:value="${searchQuery}"
+                                class="w-full h-full bg-transparent border-0 px-4 placeholder:text-[#828282] placeholder:font-small-text placeholder:text-[length:var(--small-text-font-size)]"
+                                placeholder="Поиск газа для расчета температуры"
+                            />
+                        </form>
+                        <button class="gas_btn w-[80px] h-[80px] flex items-center justify-center">
+                            <span class="text-3xl">🔍</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Atmospheric Gases Temperature Calculation Grid -->
+        <main class="w-full py-8">
+            <div class="container mx-auto px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-6xl mx-auto">
+                    <div th:each="gasData, iterStat : ${gasesWithCartStatus}"
+                         th:class="'gas_card relative w-full h-[250px] translate-y-[-1rem] animate-fade-in opacity-0 cursor-pointer'"
+                         th:style="'animation-delay: ' + ${400 + iterStat.index * 200} + 'ms'"
+                         th:onclick="'location.href=\'/gas/' + ${gasData.gas.id} + '\''">
+                        <div class="relative w-full h-full p-6 flex items-center gap-6">
+                            <!-- Image Section -->
+                            <div class="flex-shrink-0">
+                                <img
+                                    th:src="${gasData.gas.image}"
+                                    th:alt="${gasData.gas.name}"
+                                    class="gas-image"
+                                />
+                            </div>
+
+                            <!-- Content Section -->
+                            <div class="flex-1 flex flex-col justify-center gap-3">
+                                <h3 class="text-2xl font-semibold gas_text_primary leading-tight" th:text="${gasData.gas.name}">
+                                    Gas Name
+                                </h3>
+                                <div class="space-y-1">
+                                    <p class="text-sm gas_text_secondary">
+                                        <span class="font-medium">Концентрация:</span> <span th:text="${gasData.gas.concentration}">0.04%</span>
+                                    </p>
+                                    <p class="text-sm gas_text_secondary">
+                                        <span class="font-medium">Температура:</span> <span th:text="${gasData.gas.temperature}">15°C</span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Button Section -->
+                            <div class="flex-shrink-0">
+                                <button class="gas_btn w-[160px] h-[65px]"
+                                        th:classappend="${gasData.isInCart} ? 'opacity-75' : ''"
+                                        th:onclick="'addToCart(' + ${gasData.gas.id} + '); event.stopPropagation();'">
+                                    <span class="text-base font-medium text-center leading-tight"
+                                          th:id="'cart-text-' + ${gasData.gas.id}"
+                                          th:text="${gasData.isInCart} ? 'в корзине' : 'в корзину'">
+                                        в корзину
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Shopping Cart - Fixed Position -->
+        <div class="fixed bottom-6 right-6 z-50">
+            <div class="relative">
+                <!-- Cart Icon -->
+                <div th:onclick="${cartCount > 0} ? 'location.href=\'/gas-temperature-calculate\'' : null"
+                     th:class="${cartCount > 0} ? 'gas_cart w-[80px] h-[80px] rounded-full shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer flex items-center justify-center hover:scale-110' : 'gas_cart_empty w-[80px] h-[80px] rounded-full shadow-lg transition-all duration-300 flex items-center justify-center'">
+                    <span class="text-3xl">🛒</span>
+                </div>
+
+                <!-- Cart Count Badge -->
+                <div id="cart-badge" class="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-lg animate-pulse" th:classappend="${cartCount == 0} ? 'hidden' : ''">
+                    <span id="cart-count" th:text="${cartCount}">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/main.js}"></script>
+</body>
+</html>

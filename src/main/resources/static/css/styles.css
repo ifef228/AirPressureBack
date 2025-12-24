@@ -1,0 +1,240 @@
+/* Яндекс Маркет стили */
+.gas_page {
+  background-color: #f8f8f8;
+  min-height: 100vh;
+}
+
+.gas_card {
+  background: #ffffff;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+}
+
+.gas_card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.gas_btn {
+  background: #FCE000;
+  color: #000000;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  padding: 1rem 2rem; /* Увеличено значительно */
+  font-size: 1.2rem; /* Увеличено значительно */
+  min-height: 50px; /* Минимальная высота */
+}
+
+.gas_btn:hover {
+  background: #E6CA00;
+  transform: translateY(-1px);
+}
+
+.gas_btn_secondary {
+  background: #ffffff;
+  color: #FCE000;
+  border: 1px solid #FCE000;
+  padding: 1rem 2rem; /* Увеличено значительно */
+  font-size: 1.2rem; /* Увеличено значительно */
+  min-height: 50px; /* Минимальная высота */
+}
+
+.gas_btn_secondary:hover {
+  background: #FFFDF0;
+}
+
+.gas_header {
+  background: #ffffff;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.gas_search {
+  background: #ffffff;
+  border: 1px solid #e6e6e6;
+  border-radius: 6px;
+}
+
+.gas_search:focus {
+  border-color: #FCE000;
+  box-shadow: 0 0 0 2px rgba(252, 224, 0, 0.1);
+}
+
+.gas_cart {
+  background: #FCE000;
+  color: #000000;
+}
+
+.gas_cart:hover {
+  background: #E6CA00;
+}
+
+.gas_cart_empty {
+  background: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+}
+
+.gas_cart_empty:hover {
+  background: #cccccc;
+  transform: none;
+}
+
+.gas_text_primary {
+  color: #000000;
+}
+
+.gas_text_secondary {
+  color: #666666;
+}
+
+.gas_text_muted {
+  color: #999999;
+}
+
+.gas_price_card {
+  background: #FFFDF0;
+  border: 1px solid #FCE000;
+}
+
+.gas_temperature_card {
+  background: #FFFDF0;
+  border: 1px solid #FCE000;
+}
+
+.gas_price_summary_card {
+  background: #f0fff4;
+  border: 1px solid #22c55e;
+}
+
+.gas_volume_card {
+  background: #f0f9ff;
+  border: 1px solid #3b82f6;
+}
+
+/* Анимации */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+/* Дополнительные стили для улучшения UX */
+.container {
+  max-width: 1200px;
+}
+
+/* Стили для карточек с числовыми значениями */
+.numerical-value-card {
+  background: #f8f8f8;
+  border-radius: 8px;
+  padding: 1rem;
+  transition: all 0.2s ease;
+}
+
+.numerical-value-card:hover {
+  background: #f0f0f0;
+  transform: translateY(-1px);
+}
+
+/* Стили для кнопок */
+button, .gas_btn {
+  cursor: pointer;
+  user-select: none;
+}
+
+button:disabled, .gas_btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Стили для поиска */
+input[type="text"]:focus {
+  outline: none;
+}
+
+/* Стили для корзины */
+.cart-badge {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .gas_card {
+    height: auto;
+    min-height: 200px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Стили для заголовков */
+h1, h2, h3 {
+  font-family: 'Inter', Helvetica, Arial, sans-serif;
+}
+
+/* Стили для ссылок */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+/* Фиксированные размеры для картинок */
+.gas-image {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.gas-detail-image {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Ограничение размера картинок */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Логотип в хедере */
+.header-logo {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+}
