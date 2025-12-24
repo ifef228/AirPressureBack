@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ошибка - AtmosphericTempCalc</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body>
+    <div class="relative min-h-screen w-full bg-[#e1e1e1]">
+        <!-- Header -->
+        <header class="w-full h-[164px] bg-[#f8f8f8] translate-y-[-1rem] animate-fade-in opacity-0">
+            <div class="container mx-auto px-8 py-8 flex items-center gap-4">
+                <a href="/" class="gas_btn_secondary w-[65px] h-[65px] rounded-lg shadow-md flex items-center justify-center">
+                    <span class="text-2xl">🏠</span>
+                </a>
+                <h1 class="text-4xl font-bold text-black tracking-[-0.70px] [font-family:'Inter',Helvetica]">
+                    AtmosphericTempCalc
+                </h1>
+                <img
+                     class="header-logo"
+                     alt="Market Logo"
+                     src="http://localhost:9000/cards/photos/default_market.webp"
+                 />
+            </div>
+        </header>
+
+        <!-- Error Content -->
+        <main class="w-full py-8">
+            <div class="container mx-auto px-8 max-w-4xl">
+                <div class="bg-white shadow-lg border border-gray-200 rounded-xl p-8 text-center">
+                    <div class="mb-6">
+                        <div class="text-6xl mb-4">❌</div>
+                        <h2 class="text-3xl font-bold text-gray-800 mb-4">
+                            Произошла ошибка
+                        </h2>
+                        <p class="text-lg text-gray-600 mb-8" th:text="${error}">
+                            Газ не найден
+                        </p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <a href="/" class="gas_btn inline-block px-12 py-6 text-xl font-semibold">
+                            Вернуться на главную
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script th:src="@{/js/main.js}"></script>
+</body>
+</html>

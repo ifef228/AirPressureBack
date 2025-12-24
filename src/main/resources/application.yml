@@ -1,0 +1,80 @@
+spring:
+  application:
+    name: gas-temperature-calculator
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/my_database
+    username: my_user
+    password: my_password
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  # Redis configuration (using Lettuce client)
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+      timeout: 60000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          max-wait: -1ms
+          time-between-eviction-runs: 1m
+
+server:
+  port: 8080
+  address: 0.0.0.0  # Слушать на всех интерфейсах (не только localhost)
+                     # Это позволяет подключаться по IP адресу локальной сети
+  # SSL отключен - используется HTTPS прокси на порту 8443
+  # Прокси принимает HTTPS и проксирует на HTTP бэкенд
+  # ssl:
+  #   enabled: true
+  #   key-store: classpath:certs/keystore.p12
+  #   key-store-password: changeit
+  #   key-store-type: PKCS12
+  #   key-alias: server
+
+# Minio configuration
+minio:
+  endpoint: http://localhost:9000
+  access-key: minioadmin
+  secret-key: minioadmin
+  bucket-name: gas-images
+
+# JWT configuration
+jwt:
+  secret: mySecretKeyForJWTTokenGenerationThatShouldBeAtLeast256BitsLongForSecurity
+  expiration: 15552000000  # 6 месяцев (180 дней) в миллисекундах
+
+# Logging configuration
+logging:
+  level:
+    ru.mstu.yandex.gas: DEBUG
+    org.springframework.web: DEBUG
+
+# Swagger configuration
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+  show-actuator: true
+  packages-to-scan: ru.mstu.yandex.gas.controller.api
+
+# Async Go Service configuration
+async:
+  service:
+    url: http://localhost:8082
+    enabled: true

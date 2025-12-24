@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${gas.name} + ' - AtmosphericTempCalc'">Gas Detail - AtmosphericTempCalc</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body>
+    <div class="relative min-h-screen w-full bg-[#e1e1e1]">
+        <!-- Header -->
+        <header class="w-full h-[164px] bg-[#f8f8f8] translate-y-[-1rem] animate-fade-in opacity-0">
+            <div class="container mx-auto px-8 py-8 flex items-center gap-4">
+                <a href="/" class="gas_btn_secondary w-[65px] h-[65px] rounded-lg shadow-md flex items-center justify-center">
+                    <span class="text-2xl">🏠</span>
+                </a>
+                <h1 class="text-4xl font-bold text-black tracking-[-0.70px] [font-family:'Inter',Helvetica]">
+                    AtmosphericTempCalc
+                </h1>
+                <img
+                     class="header-logo"
+                     alt="Market Logo"
+                     src="http://localhost:9000/cards/photos/default_market.webp"
+                 />
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="w-full py-8">
+            <div class="container mx-auto px-8 max-w-6xl">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Left Column - Image and Basic Info -->
+                    <div class="space-y-6">
+                        <div class="bg-white shadow-lg border border-gray-200 rounded-xl">
+                            <div class="p-8">
+                                <div class="text-center">
+                                    <img
+                                        th:src="${gas.image}"
+                                        th:alt="${gas.name}"
+                                        class="gas-detail-image mx-auto mb-6"
+                                    />
+                                    <h2 class="text-3xl font-bold text-gray-800 mb-2" th:text="${gas.name}">
+                                        Gas Name
+                                    </h2>
+                                    <p class="text-lg text-gray-600 mb-4" th:text="${gas.fullName}">
+                                        Full Name
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column - Detailed Information -->
+                    <div class="space-y-6">
+                        <!-- Description -->
+                        <div class="bg-white shadow-lg border border-gray-200 rounded-xl">
+                            <div class="p-6">
+                                <h3 class="text-xl font-semibold text-gray-800 mb-4">
+                                    Описание
+                                </h3>
+                                <p class="text-gray-600 leading-relaxed" th:text="${gas.description}">
+                                    Description
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Properties -->
+                        <div class="bg-white shadow-lg border border-gray-200 rounded-xl">
+                            <div class="p-6">
+                                <h3 class="text-xl font-semibold text-gray-800 mb-4">
+                                    Физические свойства
+                                </h3>
+                                <ul class="space-y-2">
+                                    <li th:each="property : ${gas.properties}" class="text-gray-600 flex items-start">
+                                        <span class="text-[#dff0a5] mr-2">•</span>
+                                        <span th:text="${property}">Property</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Applications -->
+                        <div class="bg-white shadow-lg border border-gray-200 rounded-xl">
+                            <div class="p-6">
+                                <h3 class="text-xl font-semibold text-gray-800 mb-4">
+                                    Применение
+                                </h3>
+                                <ul class="space-y-2">
+                                    <li th:each="app : ${gas.applications}" class="text-gray-600 flex items-start">
+                                        <span class="text-[#dff0a5] mr-2">•</span>
+                                        <span th:text="${app}">Application</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Atmospheric Data -->
+                        <div class="bg-white shadow-lg border border-gray-200 rounded-xl">
+                            <div class="p-6">
+                                <h3 class="text-xl font-semibold text-gray-800 mb-4">
+                                    Атмосферные данные
+                                </h3>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="bg-[#f8f8f8] rounded-lg p-4">
+                                        <div class="text-sm text-gray-500 mb-1">Концентрация</div>
+                                        <div class="text-lg font-semibold text-gray-800" th:text="${gas.concentration}">
+                                            0.04%
+                                        </div>
+                                    </div>
+                                    <div class="bg-[#f8f8f8] rounded-lg p-4">
+                                        <div class="text-sm text-gray-500 mb-1">Температура</div>
+                                        <div class="text-lg font-semibold text-gray-800" th:text="${gas.temperature}">
+                                            15°C
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Numerical Values -->
+                        <div class="bg-white shadow-lg border border-gray-200 rounded-xl">
+                            <div class="p-6">
+                                <h3 class="text-xl font-semibold text-gray-800 mb-4">
+                                    Физические характеристики
+                                </h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                    <div th:each="entry : ${gas.numericalValues}" class="bg-[#f8f8f8] rounded-lg p-4">
+                                        <div class="text-sm text-gray-500 mb-1" th:text="${entry.value.label}">Label</div>
+                                        <div class="text-lg font-semibold text-gray-800">
+                                            <span th:text="${entry.value.value}">Value</span>
+                                            <span class="text-sm text-gray-600" th:text="${entry.value.unit}">Unit</span>
+                                        </div>
+                                        <div th:if="${entry.value.note != null}" class="text-xs text-gray-400 mt-1" th:text="${entry.value.note}">
+                                            Note
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script th:src="@{/js/main.js}"></script>
+</body>
+</html>

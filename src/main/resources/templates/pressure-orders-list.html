@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заявки на расчет атмосферного давления</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body class="gas_page">
+    <div class="min-h-screen">
+        <!-- Header -->
+        <header class="gas_header py-4 px-6 shadow-sm">
+            <div class="max-w-7xl mx-auto flex items-center justify-between">
+                <h1 class="text-2xl font-bold gas_text_primary">Заявки на расчет атмосферного давления</h1>
+                <div class="flex space-x-4">
+                    <a href="/gas-pressure-orders/current" class="gas_btn px-4 py-2 rounded-lg">Текущая заявка</a>
+                    <a href="/" class="gas_btn_secondary px-4 py-2 rounded-lg">← К газам</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-6 py-8">
+            <div th:if="${#lists.isEmpty(orders)}" class="text-center py-12">
+                <div class="gas_card p-8">
+                    <h2 class="text-xl font-semibold gas_text_primary mb-4">Заявок пока нет</h2>
+                    <p class="gas_text_secondary mb-6">Создайте первую заявку на расчет атмосферного давления</p>
+                    <a href="/" class="gas_btn px-6 py-3 rounded-lg">Выбрать газы</a>
+                </div>
+            </div>
+
+            <div th:unless="${#lists.isEmpty(orders)}" class="space-y-6">
+                <div th:each="order : ${orders}" class="gas_card p-6">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-4 mb-3">
+                                <h3 class="text-lg font-semibold gas_text_primary" th:text="'Заявка #' + ${order.id}">Заявка #1</h3>
+                                <span class="px-3 py-1 rounded-full text-sm font-medium"
+                                      th:class="${order.status == 'COMPLETED'} ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'"
+                                      th:text="${order.status}">COMPLETED</span>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                                <div>
+                                    <span class="gas_text_secondary">Дата создания:</span>
+                                    <div class="font-medium gas_text_primary" th:text="${#temporals.format(order.timestamp, 'dd.MM.yyyy HH:mm')}">01.01.2024 12:00</div>
+                                </div>
+                                <div th:if="${order.tempResult}">
+                                    <span class="gas_text_secondary">Результат:</span>
+                                    <div class="font-bold text-green-600" th:text="${order.tempResult} + '°C'">15.5°C</div>
+                                </div>
+                                <div th:if="${order.description}">
+                                    <span class="gas_text_secondary">Описание:</span>
+                                    <div class="font-medium gas_text_primary" th:text="${order.description}">Расчет атмосферного давления</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex space-x-3">
+                            <a th:href="@{/gas-pressure-orders/{id}(id=${order.id})}"
+                               class="gas_btn_secondary px-4 py-2 rounded-lg text-sm">Просмотр</a>
+                            <form th:action="@{/gas-pressure-orders/{id}/delete(id=${order.id})}" method="post" class="inline">
+                                <button type="submit"
+                                        class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm transition-colors"
+                                        onclick="return confirm('Вы уверены, что хотите удалить эту заявку?')">
+                                    Удалить
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
