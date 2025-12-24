@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Расчет температуры - AtmosphericTempCalc</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body>
+    <div class="relative min-h-screen w-full bg-[#e1e1e1]">
+        <!-- Header -->
+        <header class="w-full h-[164px] bg-[#f8f8f8] translate-y-[-1rem] animate-fade-in opacity-0">
+            <div class="container mx-auto px-8 py-8 flex items-center gap-4">
+                <a href="/" class="gas_btn_secondary w-[65px] h-[65px] rounded-lg shadow-md flex items-center justify-center">
+                    <span class="text-2xl">🏠</span>
+                </a>
+                <h1 class="text-4xl font-bold text-black tracking-[-0.70px] [font-family:'Inter',Helvetica]">
+                    Расчет атмосферного давления
+                </h1>
+                <img
+                     class="header-logo"
+                     alt="Market Logo"
+                     src="http://localhost:9000/cards/photos/default_market.webp"
+                 />
+            </div>
+        </header>
+
+        <!-- Calculation Summary -->
+        <section class="w-full py-8 translate-y-[-1rem] animate-fade-in opacity-0 [--animation-delay:200ms]">
+            <div class="container mx-auto px-8">
+                <div class="max-w-4xl mx-auto">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <!-- Temperature Result -->
+                        <div class="bg-white shadow-lg border border-gray-200 rounded-xl">
+                            <div class="p-6 text-center">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-2">
+                                    Температура атмосферы
+                                </h3>
+                                <div class="text-4xl font-bold text-[#FCE000] mb-2" th:text="${calculatedTemperature} + '°C'">
+                                    15°C
+                                </div>
+                                <p class="text-sm text-gray-600">
+                                    Рассчитано на основе парникового эффекта
+                                </p>
+                                <div class="mt-3 text-xs text-gray-500">
+                                    <span th:if="${calculatedTemperature > 15}">🌡️ Повышение температуры</span>
+                                    <span th:if="${calculatedTemperature < 15}">❄️ Понижение температуры</span>
+                                    <span th:if="${calculatedTemperature == 15}">🌡️ Базовая температура</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Volume -->
+                        <div class="bg-white shadow-lg border border-gray-200 rounded-xl">
+                            <div class="p-6 text-center">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-2">
+                                    Объем воздуха
+                                </h3>
+                                <div class="text-4xl font-bold text-blue-600 mb-2">
+                                    1 м³
+                                </div>
+                                <p class="text-sm text-gray-600">
+                                    Стандартный объем
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Order Gases List -->
+        <main class="w-full py-8">
+            <div class="container mx-auto px-8">
+                <div class="max-w-6xl mx-auto">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">
+                        Состав атмосферного воздуха (1 м³) - <span th:text="${gasesCount}">5</span> элементов
+                    </h2>
+
+                    <div class="grid grid-cols-1 gap-6">
+                        <div th:each="gas, iterStat : ${gases}"
+                             th:class="'relative w-full h-[250px] bg-white shadow-lg border border-gray-200 rounded-xl translate-y-[-1rem] animate-fade-in opacity-0 hover:shadow-xl transition-all duration-300 hover:scale-[1.02]'"
+                             th:style="'animation-delay: ' + ${400 + iterStat.index * 200} + 'ms'">
+                            <div class="relative w-full h-full p-6 flex items-center gap-6">
+                                <!-- Image Section -->
+                                <div class="flex-shrink-0">
+                                    <img
+                                        th:src="${gas.image}"
+                                        th:alt="${gas.name}"
+                                        class="gas-image"
+                                    />
+                                </div>
+
+                                <!-- Content Section -->
+                                <div class="flex-1 flex flex-col justify-center gap-3">
+                                    <h3 class="text-2xl font-semibold text-gray-800 leading-tight" th:text="${gas.name}">
+                                        Gas Name
+                                    </h3>
+                                    <div class="space-y-1">
+                                        <p class="text-sm text-gray-600">
+                                            <span class="font-medium">Концентрация:</span> <span th:text="${gas.concentration}">0.04%</span>
+                                        </p>
+                                        <p class="text-sm text-gray-600">
+                                            <span class="font-medium">Температура:</span> <span th:text="${gas.temperature}">15°C</span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex justify-center gap-6 mt-12">
+                        <!-- Calculate Button -->
+                        <form th:action="@{/gas-temperature-calculate/calculate}" method="post" class="inline">
+                            <input type="hidden" th:each="gas : ${gases}" th:name="gasIds" th:value="${gas.id}" />
+                            <input type="hidden" th:each="gas : ${gases}" th:name="concentrations" th:value="${gas.concentration}" />
+                            <input type="hidden" th:each="gas : ${gases}" th:name="temperatures" th:value="${gas.temperature}" />
+                            <button type="submit" class="gas_btn w-[300px] h-[75px] text-xl font-semibold">
+                                🌡️ Рассчитать температуру атмосферы
+                            </button>
+                        </form>
+
+                        <!-- Clear Order Button -->
+                        <button
+                            type="button"
+                            class="bg-red-500 hover:bg-red-600 text-white w-[200px] h-[75px] text-lg font-semibold rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl"
+                            onclick="clearCartAndReload()"
+                            title="Удалить весь заказ">
+                            🗑️ Удалить заказ
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Shopping Cart - Fixed Position -->
+        <div class="fixed bottom-6 right-6 z-50">
+            <div class="relative">
+                <!-- Cart Icon -->
+                <div th:onclick="${gasesCount > 0} ? 'location.href=\'/\'' : null"
+                     th:class="${gasesCount > 0} ? 'gas_cart w-[80px] h-[80px] rounded-full shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer flex items-center justify-center hover:scale-110' : 'gas_cart_empty w-[80px] h-[80px] rounded-full shadow-lg transition-all duration-300 flex items-center justify-center'">
+                    <span class="text-3xl">🛒</span>
+                </div>
+
+                <!-- Cart Count Badge -->
+                <div class="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-lg animate-pulse">
+                    <span th:text="${gasesCount}">5</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/main.js}"></script>
+</body>
+</html>

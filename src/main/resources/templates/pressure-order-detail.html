@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Детали заявки на расчет атмосферного давления</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body class="gas_page">
+    <div class="min-h-screen">
+        <!-- Header -->
+        <header class="gas_header py-4 px-6 shadow-sm">
+            <div class="max-w-7xl mx-auto flex items-center justify-between">
+                <h1 class="text-2xl font-bold gas_text_primary">Детали заявки на расчет атмосферного давления</h1>
+                <a href="/" class="gas_btn_secondary px-4 py-2 rounded-lg">← Назад к газам</a>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-6 py-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Order Info -->
+                <div class="lg:col-span-1">
+                    <div class="gas_card p-6">
+                        <h2 class="text-xl font-semibold gas_text_primary mb-4">Информация о заявке</h2>
+                        <div class="space-y-3">
+                            <div>
+                                <span class="gas_text_secondary">ID заявки:</span>
+                                <span class="font-medium gas_text_primary" th:text="${order.id}">1</span>
+                            </div>
+                            <div>
+                                <span class="gas_text_secondary">Статус:</span>
+                                <span class="font-medium gas_text_primary" th:text="${order.status}">COMPLETED</span>
+                            </div>
+                            <div>
+                                <span class="gas_text_secondary">Дата создания:</span>
+                                <span class="font-medium gas_text_primary" th:text="${#temporals.format(order.timestamp, 'dd.MM.yyyy HH:mm')}">01.01.2024 12:00</span>
+                            </div>
+                            <div th:if="${order.description}">
+                                <span class="gas_text_secondary">Описание:</span>
+                                <p class="font-medium gas_text_primary" th:text="${order.description}">Расчет атмосферного давления</p>
+                            </div>
+                            <div th:if="${order.tempResult}">
+                                <span class="gas_text_secondary">Результат расчета:</span>
+                                <span class="font-bold text-lg text-green-600" th:text="${order.tempResult} + '°C'">15.5°C</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gases List -->
+                <div class="lg:col-span-2">
+                    <div class="gas_card p-6">
+                        <h2 class="text-xl font-semibold gas_text_primary mb-4">Газы в заявке</h2>
+                        <div th:if="${#lists.isEmpty(gases)}" class="text-center py-8">
+                            <p class="gas_text_muted">В заявке нет газов</p>
+                        </div>
+                        <div th:unless="${#lists.isEmpty(gases)}" class="space-y-4">
+                            <div th:each="gas, gasStat : ${gases}" class="border border-gray-200 rounded-lg p-4">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-4">
+                                        <img th:src="${gas.image}" th:alt="${gas.name}" class="w-12 h-12 rounded-lg object-cover">
+                                        <div>
+                                            <h3 class="font-semibold gas_text_primary" th:text="${gas.name}">CO₂</h3>
+                                            <p class="gas_text_secondary" th:text="${gas.fullName}">Диоксид углерода</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="gas_text_secondary" th:text="'Концентрация: ' + ${gas.concentration}">Концентрация: 0.04%</div>
+                                        <div class="gas_text_secondary" th:text="'Температура: ' + ${gas.temperature}">Температура: 15°C</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

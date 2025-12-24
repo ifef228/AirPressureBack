@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title} ?: 'AtmosphericTempCalc'">AtmosphericTempCalc</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="gas_header w-full h-[164px] translate-y-[-1rem] animate-fade-in opacity-0">
+        <div class="container mx-auto px-8 py-8 flex items-center gap-4">
+            <a th:href="@{/}" class="flex items-center gap-4">
+                <h1 class="text-4xl font-bold gas_text_primary tracking-[-0.70px] [font-family:'Inter',Helvetica]">
+                    AtmosphericTempCalc
+                </h1>
+                <img
+                    class="header-logo"
+                    alt="Market Logo"
+                    src="http://localhost:9000/cards/photos/default_market.webp"
+                />
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main th:fragment="content">
+        <!-- Content will be inserted here -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-16">
+        <div class="container mx-auto px-8 text-center">
+            <p>&copy; 2024 AtmosphericTempCalc. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script th:src="@{/js/main.js}"></script>
+</body>
+</html>
