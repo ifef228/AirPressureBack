@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Результат расчета температуры газов - AtmosphericTempCalc</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body>
+    <div class="relative min-h-screen w-full bg-[#e1e1e1]">
+        <!-- Header -->
+        <header class="w-full h-[164px] bg-[#f8f8f8] translate-y-[-1rem] animate-fade-in opacity-0">
+            <div class="container mx-auto px-8 py-8 flex items-center gap-4">
+                <a href="/" class="gas_btn_secondary w-[65px] h-[65px] rounded-lg shadow-md flex items-center justify-center">
+                    <span class="text-2xl">🏠</span>
+                </a>
+                <h1 class="text-4xl font-bold text-black tracking-[-0.70px] [font-family:'Inter',Helvetica]">
+                    Результат расчета температуры газов
+                </h1>
+                <img
+                     class="header-logo"
+                     alt="Market Logo"
+                     src="http://localhost:9000/cards/photos/default_market.webp"
+                 />
+            </div>
+        </header>
+
+        <!-- Result Content -->
+        <main class="w-full py-8">
+            <div class="container mx-auto px-8 max-w-4xl">
+                <div class="bg-white shadow-lg border border-gray-200 rounded-xl p-8 text-center">
+                    <div class="mb-6">
+                        <div class="text-6xl mb-4">🌡️</div>
+                        <h2 class="text-3xl font-bold text-gray-800 mb-4" th:text="${message}">
+                            Расчет завершен успешно!
+                        </h2>
+                        <p class="text-lg text-gray-600 mb-6">
+                            Ваш расчет температуры атмосферного воздуха был успешно выполнен и сохранен в системе.
+                        </p>
+
+                        <!-- Результат расчета -->
+                        <div class="bg-[#FCE000] bg-opacity-20 border-2 border-[#FCE000] rounded-xl p-6 mb-6">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">
+                                Результат расчета
+                            </h3>
+                            <div class="text-4xl font-bold text-[#FCE000] mb-2" th:text="${temperature != null ? temperature + '°C' : 'N/A'}">
+                                15.0°C
+                            </div>
+                            <p class="text-sm text-gray-600">
+                                Температура атмосферы на основе парникового эффекта
+                            </p>
+                            <div class="mt-3 text-xs text-gray-500" th:if="${temperature != null}">
+                                <span th:if="${temperature > 15}">🌡️ Повышение температуры на <span th:text="${temperature - 15}">0</span>°C</span>
+                                <span th:if="${temperature < 15}">❄️ Понижение температуры на <span th:text="${15 - temperature}">0</span>°C</span>
+                                <span th:if="${temperature == 15}">🌡️ Базовая температура атмосферы</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <a href="/" class="gas_btn inline-block px-12 py-6 text-xl font-semibold">
+                            Вернуться на главную
+                        </a>
+                        <br>
+                        <a href="/gas-temperature-calculate" class="gas_btn_secondary inline-block px-12 py-6 text-xl font-semibold">
+                            Новый расчет
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script th:src="@{/js/main.js}"></script>
+</body>
+</html>
