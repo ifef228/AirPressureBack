@@ -41,3 +41,15 @@ bin/
 
 # Virtual machine crash logs
 hs_err_pid*
+
+# SSL Certificates (sensitive)
+*.pem
+*.key
+*.p12
+*.jks
+*.keystore
+certs/
+
+# Application properties with sensitive data
+application-dev.yml
+application-local.yml

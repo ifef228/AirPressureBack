@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gas Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .gas-item {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+        .gas-name {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .gas-formula {
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        .gas-price {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .api-link {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .api-link:hover {
+            background-color: #2980b9;
+        }
+
+        .db-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 4px solid #3498db;
+        }
+
+        .db-info p {
+            margin: 5px 0;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌬️ Gas Application</h1>
+        <p>Добро пожаловать в приложение для работы с газами!</p>
+
+        <h2>Структура базы данных:</h2>
+
+        <h3>🗄️ Таблицы:</h3>
+        <div class="db-info">
+            <p><strong>gas</strong> - информация о газах (id, name, formula, detailed_description)</p>
+            <p><strong>users</strong> - пользователи системы (id, password, login)</p>
+            <p><strong>calc_order</strong> - заказы на расчет (id, user_id, temp_result, timestamp)</p>
+            <p><strong>gas_order</strong> - заказы газов (id, gas_id, calc_order_id, concentration, temperature)</p>
+        </div>
+
+        <h3>🔗 Связи:</h3>
+        <div class="db-info">
+            <p>• users → calc_order (1:many)</p>
+            <p>• calc_order → gas_order (1:many)</p>
+            <p>• gas → gas_order (1:many)</p>
+        </div>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="/home" style="display: inline-block; background: #FCE000; color: #000; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 500; margin: 10px 0; transition: all 0.2s ease;">🚀 Перейти к приложению</a>
+        </div>
+
+        <h2>Статус приложения:</h2>
+        <p>✅ Spring Boot приложение запущено</p>
+        <p>✅ PostgreSQL подключение настроено</p>
+        <p>✅ Hibernate настроен</p>
+        <p>✅ Thymeleaf настроен</p>
+        <p>✅ Контроллеры созданы</p>
+        <p>✅ Шаблоны готовы</p>
+
+        <h2>Информация о базе данных:</h2>
+        <p>База данных: my_database</p>
+        <p>Пользователь: my_user</p>
+        <p>Порт: 5432</p>
+    </div>
+</body>
+</html>
